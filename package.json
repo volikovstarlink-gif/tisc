@@ -1,0 +1,17 @@
+{
+  "name": "tisc",
+  "version": "1.0.0",
+  "description": "Tisc Messenger — приватный мессенджер",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.3.0",
+    "@capacitor/cli": "^8.3.0",
+    "@capacitor/core": "^8.3.0",
+    "express": "^4.21.0",
+    "lowdb": "^1.0.0",
+    "socket.io": "^4.7.5"
+  }
+}

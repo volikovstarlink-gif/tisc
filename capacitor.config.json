@@ -1,0 +1,8 @@
+{
+  "appId": "com.tisc.messenger",
+  "appName": "Tisc",
+  "webDir": "public",
+  "server": {
+    "androidScheme": "https"
+  }
+}
