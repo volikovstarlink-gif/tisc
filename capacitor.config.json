@@ -3,6 +3,7 @@
   "appName": "Tisc",
   "webDir": "public",
   "server": {
-    "androidScheme": "https"
+    "url": "https://tisc.onrender.com",
+    "cleartext": true
   }
 }
