@@ -14,6 +14,14 @@ const adapter = new FileSync(path.join(__dirname, 'db.json'));
 const db = low(adapter);
 db.defaults({ users: [], messages: [] }).write();
 
+// CORS for APK requests
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
