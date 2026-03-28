@@ -37,22 +37,27 @@ function showScreen(scr) {
 
 // ===== LOGIN =====
 async function login(username) {
-  const res = await fetch(api('/api/register'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username })
-  });
-  const data = await res.json();
-  if (data.error) return;
+  try {
+    const url = api('/api/register');
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username })
+    });
+    const data = await res.json();
+    if (data.error) { alert('Error: ' + data.error); return; }
 
-  me = data.user.username;
-  localStorage.setItem('tisc_user', me);
-  $('sidebar-name').textContent = me;
-  $('sidebar-avatar').textContent = avLetter(me);
-  $('sidebar-avatar').className = 'sidebar-avatar ' + avColor(me);
-  socket.emit('go-online', me);
-  showScreen(chatsScreen);
-  loadChats();
+    me = data.user.username;
+    localStorage.setItem('tisc_user', me);
+    $('sidebar-name').textContent = me;
+    $('sidebar-avatar').textContent = avLetter(me);
+    $('sidebar-avatar').className = 'sidebar-avatar ' + avColor(me);
+    socket.emit('go-online', me);
+    showScreen(chatsScreen);
+    loadChats();
+  } catch (e) {
+    alert('Ошибка подключения: ' + e.message + '\nСервер: ' + SERVER);
+  }
 }
 
 const saved = localStorage.getItem('tisc_user');
@@ -95,9 +100,11 @@ $('sidebar-share').onclick = () => {
 
 // ===== CHATS LIST =====
 async function loadChats() {
-  const res = await fetch(api('/api/users?me=' + encodeURIComponent(me)));
-  allUsers = await res.json();
-  renderChats();
+  try {
+    const res = await fetch(api('/api/users?me=' + encodeURIComponent(me)));
+    allUsers = await res.json();
+    renderChats();
+  } catch (e) { console.error('loadChats error:', e); }
 }
 
 function renderChats() {
