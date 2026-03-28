@@ -1,12 +1,5 @@
-let SERVER = window.TISC_SERVER || '';
-let socket = null;
-const api = (path) => SERVER + path;
-
-function connectSocket() {
-  if (socket) socket.disconnect();
-  socket = SERVER ? io(SERVER) : io();
-  setupSocketEvents();
-}
+const socket = io();
+const api = (path) => path;
 
 // ===== STATE =====
 let me = null;
@@ -303,35 +296,8 @@ function esc(str) {
   return d.innerHTML;
 }
 
-// ===== SERVER SETUP (for APK mode) =====
-const setupScreen = $('setup-screen');
-$('server-btn').onclick = () => {
-  const url = $('server-input').value.trim().replace(/\/+$/, '');
-  if (!url) return;
-  localStorage.setItem('tisc_server', url);
-  SERVER = url;
-  window.TISC_SERVER = url;
-  connectSocket();
-  showScreen(loginScreen);
-};
-
-// Determine if we need server setup
-// If running from file:// or capacitor:// (APK), and no server set — show setup
-const isEmbedded = location.protocol === 'file:' || location.protocol === 'capacitor:' || location.protocol === 'https:' && location.hostname === 'localhost' === false;
-const needsSetup = !SERVER && (location.protocol !== 'http:' || location.hostname === 'localhost');
-
-if (needsSetup && !SERVER) {
-  // Running inside APK without server configured — show setup screen first
-  // But only if no saved server
-  if (!localStorage.getItem('tisc_server') && location.protocol !== 'http:') {
-    loginScreen.classList.remove('active');
-    setupScreen.classList.add('active');
-  } else {
-    connectSocket();
-  }
-} else {
-  connectSocket();
-}
+// Init socket events
+setupSocketEvents();
 
 // PWA
 let deferredPrompt;
