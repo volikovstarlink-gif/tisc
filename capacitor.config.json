@@ -1,9 +1,0 @@
-{
-  "appId": "com.tisc.messenger",
-  "appName": "Tisc",
-  "webDir": "public",
-  "server": {
-    "url": "https://tisc.onrender.com",
-    "cleartext": true
-  }
-}
